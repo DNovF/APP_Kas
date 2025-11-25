@@ -9,7 +9,6 @@
                 <button wire:click="pilihMenu('tambah')"
                      class="btn {{ $pilihanMenu=='tambah' ? 'btn-primary' : 'btn-outline-primary' }}"> Tambah Pengguna
                 </button>
-             <!-- removed invalid per-user action from the top toolbar; use the table rows' action buttons instead -->
                      <button wire:loading class="btn btn-info">Loading...
                 </button>
             </div>
@@ -39,11 +38,11 @@
                                         <td>{{ $pengguna->email }}</td>
                                         <td>{{ $pengguna->peran }}</td>
                                         <td>
-                                            <button wire:click="pilihMenu('edit')"
+                                            <button wire:click="pilihEdit({{ $pengguna->id }})"
                                                 class="btn {{ $pilihanMenu == 'edit' ? 'btn-primary' : 'btn-outline-primary' }}">
                                                 Edit Pengguna
                                             </button>
-                                            <button wire:click="pilihMenu('hapus')"
+                                            <button wire:click="pilihHapus({{ $pengguna->id }})"
                                                 class="btn {{ $pilihanMenu == 'hapus' ? 'btn-primary' : 'btn-outline-primary' }}">
                                                 Hapus Pengguna
                                             </button>
@@ -100,53 +99,57 @@
                         </div>
                     </div>
                 @elseif ($pilihanMenu == 'edit')
-                    <div class="card border-primary">
-                        <div class="card-header">Edit Pengguna</div>
-                        <div class="card-body">
-                            <form wire:submit='update'>
-                                <div class="mb-3">
-                                    <label class="form-label">Nama</label>
-                                    <input type="text" class="form-control @error('nama') is-invalid @enderror" wire:model="nama" />
-                                    @error('nama')
-                                        <span class="text-danger">{{ $message }}</span>
-                                    @enderror
-                                </div>
-
-                                <div class="mb-3">
-                                    <label class="form-label">Email</label>
-                                    <input type="email" class="form-control @error('email') is-invalid @enderror" wire:model="email" />
-                                    @error('email')
-                                        <span class="text-danger">{{ $message }}</span>
-                                    @enderror
-                                </div>
-
-                                <div class="mb-3">
-                                    <label class="form-label">Peran</label>
-                                    <select class="form-select @error('peran') is-invalid @enderror" wire:model="peran">
-                                        <option value="">Pilih Peran</option>
-                                        <option value="admin">Admin</option>
-                                        <option value="kasir">Kasir</option>
-                                    </select>
-                                    @error('peran')
-                                        <span class="text-danger">{{ $message }}</span>
-                                    @enderror
-                                </div>
-
-                                <button type="submit" class="btn btn-primary">Update</button>
-                                <button type="button" wire:click="batal" class="btn btn-secondary">Batal</button>
-                            </form>
-                        </div>
+                <div class="card border-primary">
+                    <div class="card-header">
+                        Edit Pengguna
                     </div>
+                    <div class="card-body">
+                        <form wire:submit="simpan">
+                            <label>Nama</label>
+                            <input type="text" class="form-control" wire:model="nama" />
+                            @error('nama')
+                                <span class="text-danger">{{ $message }}</span>
+                            @enderror
+                            <br/>
+
+                            <label>Email</label>
+                            <input type="email" class="form-control" wire:model="email" />
+                            @error('email')
+                                <span class="text-danger">{{ $message }}</span>
+                            @enderror
+                            <br/>
+
+                            <label>Password (Isi jika mau ganti)</label>
+                            <input type="password" class="form-control" wire:model="password" />
+                            @error('password')
+                                <span class="text-danger">{{ $message }}</span>
+                            @enderror
+                            <br/>
+
+                            <label>Peran</label>
+                            <select class="form-control" wire:model.defer="peran" required>
+                                <option value="">--Pilih Peran--</option>
+                                <option value="admin">Admin</option>
+                                <option value="kasir">Kasir</option>
+                            </select>
+                            @error('peran')
+                                <span class="text-danger">{{ $message }}</span>
+                            @enderror
+                            
+                            <br/>
+                            <button class="btn btn-primary">Update</button>
+                            <button type="button" class="btn btn-secondary" wire:click="batal">Batal</button>
+                        </form>
+                    </div>
+                </div>
                 @elseif ($pilihanMenu == 'hapus')
-                    <div class="card border-primary">
+                    <div class="card border-danger">
                         <div class="card-header bg-danger text-white">
                             Hapus Pengguna
                         </div>
                         <div class="card-body">
                             Apakah kamu yakin akan menghapus Pengguna ini?
-                            <br>
-                            Nama : {{ optional($penggunaTerpilih)->name }}
-                            <br><br>
+                            <p>Nama : {{ optional($penggunaTerpilih)->name }}</p>
                             <button class="btn btn-danger" wire:click="hapus">HAPUS</button>
                             <button class="btn btn-secondary" wire:click="batal">BATAL</button>
                         </div>

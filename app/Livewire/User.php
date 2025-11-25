@@ -21,11 +21,10 @@ class User extends Component
 
     public function pilihEdit($id)
     {
-        $pengguna = ModelUser::findOrFail($id);
-        $this->nama = $pengguna->name;
-        $this->email = $pengguna->email;
-        $this->peran = $pengguna->peran;
-        $this->penggunaTerpilih = $pengguna;
+        $this->penggunaTerpilih = ModelUser::findOrFail($id);
+        $this->nama = $this->penggunaTerpilih->name;
+        $this->email = $this->penggunaTerpilih->email;
+        $this->peran = $this->penggunaTerpilih->peran;
         $this->pilihanMenu = 'edit';
     }
 
@@ -56,33 +55,58 @@ class User extends Component
 
     public function simpan()
     {
-        $this->validate([
-            'nama' => 'required',
-            'email' => ['required', 'email', 'unique:users,email'],
-            'peran' => 'required',
-            'password' => 'required',
-        ], [
-            'nama.required' => 'Nama Harus Diisi',
-            'email.required' => 'Email Harus Diisi',
-            'email.email' => 'Format mesti Email',
-            'email.unique' => 'Email sudah digunakan',
-            'peran.required' => 'Peran Harus Diisi',
-            'password.required' => 'Password harus Diisi',
-        ]);
+        if ($this->penggunaTerpilih) {
+            // Mode Edit
+            $this->validate([
+                'nama' => 'required',
+                'email' => ['required', 'email', 'unique:users,email,' .$this->penggunaTerpilih->id],
+                'peran' => 'required',
+            ], [
+                'nama.required' => 'Nama Harus Diisi',
+                'email.required' => 'Email Harus Diisi',
+                'email.email' => 'Format mesti Email',
+                'email.unique' => 'Email sudah digunakan',
+                'peran.required' => 'Peran Harus Diisi',
+            ]);
 
-        $simpan = new ModelUser();
-        $simpan->name = $this->nama;
-        $simpan->email = $this->email;
-        $simpan->password = bcrypt($this->password);
-        $simpan->peran = $this->peran;
-        $simpan->save();
+            $simpan = $this->penggunaTerpilih;
+            $simpan->name = $this->nama;
+            $simpan->email = $this->email;
+            if ($this->password){
+                $simpan->password = bcrypt($this->password);
+            }
+            $simpan->peran = $this->peran;
+            $simpan->save();
+        } else {
+            // Mode Tambah
+            $this->validate([
+                'nama' => 'required',
+                'email' => ['required', 'email', 'unique:users,email'],
+                'peran' => 'required',
+                'password' => 'required',
+            ], [
+                'nama.required' => 'Nama Harus Diisi',
+                'email.required' => 'Email Harus Diisi',
+                'email.email' => 'Format mesti Email',
+                'email.unique' => 'Email sudah digunakan',
+                'peran.required' => 'Peran Harus Diisi',
+                'password.required' => 'Password harus Diisi',
+            ]);
 
-        $this->reset('nama', 'email', 'password', 'peran');
+            $simpan = new ModelUser();
+            $simpan->name = $this->nama;
+            $simpan->email = $this->email;
+            $simpan->password = bcrypt($this->password);
+            $simpan->peran = $this->peran;
+            $simpan->save();
+        }
+
+        $this->reset('nama', 'email', 'password', 'peran', 'penggunaTerpilih');
         $this->pilihanMenu = 'lihat';
     }
 
     public function render()
-    {z
+    {
         return view('livewire.user')->with([
             'semuaPengguna' => ModelUser::all()
         ]);

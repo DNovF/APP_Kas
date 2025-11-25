@@ -79,7 +79,7 @@
             <div class="container">
                 <div class="row">
                     <div class = "col-12">
-                        <a href="{{ route('home') }}" wire:navigate
+                        <a href="{{ route('user') }}" wire:navigate
                         class="btn {{ request() ->routeIs ('home') ? 'btn-primary' : 'btn-outline-primary'}}"> Beranda
                         </a>
                         <a href="{{ route('produk') }}" wire: navigate

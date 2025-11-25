@@ -7,14 +7,15 @@ use App\Livewire\Transaksi;
 use App\Livewire\Laporan;
 use App\Livewire\User;
 
-Route::get('/', function () { return view('welcome');
+Route::get('/', function () { return view('home');
 
 });
 
 
 Auth::routes();
-Route::get('/home',Beranda::class)->middleware(['auth'])->name('home');
+Route::get('/user',Beranda::class)->middleware(['auth'])->name('home');
 Route::get('/produk', Produk::class)->middleware(['auth'])->name('produk');
 Route::get('/transaksi', Transaksi::class)->middleware(['auth'])->name('transaksi');
 Route::get('/laporan', Laporan::class)->middleware(['auth'])->name('laporan');
-Route::get('/user', User::class)->middleware(['auth'])->name('user');
+Route::get('/home', User::class)->middleware(['auth'])->name('user');
+Route::get('/cetak', [App\Http\Controllers\HomeController::class, 'cetak']);

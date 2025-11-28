@@ -3,9 +3,9 @@
 namespace App\Livewire;
 
 use App\Models\Produk as ModelProduk;
-use Livewire\Component; // PENTING: Import Component
+use Livewire\Component;
 
-class Produk extends Component // PENTING: Extend Component, bukan Model
+class Produk extends Component
 {
     public $pilihanMenu = 'lihat';
     public $nama;

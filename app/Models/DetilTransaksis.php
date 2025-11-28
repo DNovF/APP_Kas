@@ -11,7 +11,7 @@ class DetilTransaksis extends Model
 {
     use HasFactory;
 
-    protected $table = 'detil_transaksis'; // Tambahkan ini
+    protected $table = 'detil_transaksis';
 
     protected $fillable = ['transaksi_id', 'produk_id', 'jumlah'];
 

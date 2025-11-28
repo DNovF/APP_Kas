@@ -56,7 +56,6 @@ class User extends Component
     public function simpan()
     {
         if ($this->penggunaTerpilih) {
-            // Mode Edit
             $this->validate([
                 'nama' => 'required',
                 'email' => ['required', 'email', 'unique:users,email,' .$this->penggunaTerpilih->id],
@@ -78,7 +77,6 @@ class User extends Component
             $simpan->peran = $this->peran;
             $simpan->save();
         } else {
-            // Mode Tambah
             $this->validate([
                 'nama' => 'required',
                 'email' => ['required', 'email', 'unique:users,email'],

@@ -15,8 +15,8 @@ return new class extends Migration
             $table->id();
             $table->string('kode')->unique();
             $table->string('nama');
-            $table->decimal('harga', 15, 2); // Ubah ke decimal untuk harga
-            $table->integer('stok')->default(0); // Ubah 'stock' ke 'stok' dan hapus unsigned
+            $table->decimal('harga', 15, 2);
+            $table->integer('stok')->default(0);
             $table->timestamps();
         });
     }

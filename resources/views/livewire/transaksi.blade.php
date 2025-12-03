@@ -34,8 +34,8 @@
                             @foreach($semuaProduk as $produk)
                                 <tr>
                                     <td>{{ $loop->iteration }}</td>
-                                    <td>{{ $produk->produk->kode3 }}</td>
-                                    <td>{{ $produk->produk->namaa1 }}</td>
+                                    <td>{{ $produk->produk->kode }}</td>
+                                    <td>{{ $produk->produk->nama }}</td>
                                     <td>{{ number_format($produk->produk->harga, 2, ',', '.') }}</td>
                                     <td>{{ $produk->jumlah }}</td>
                                     <td>{{ number_format($produk->produk->harga * $produk->jumlah, 2, ',', '.') }}</td>

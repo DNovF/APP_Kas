@@ -6,7 +6,7 @@
     <div class="shadow-lg rounded-3 p-4 bg-white" style="max-width: 1100px; width: 100%;">
         
         <div class="text-center mb-4">
-            <img src="{{ asset('images/logo login light mode.png') }}" class="mb-3" style="width: 380px; height: 60px;">
+            <img src="{{ asset('') }}" class="mb-3" style="width: 380px; height: 60px;">
         </div>
 
         <div class="row g-4 align-items-center">
